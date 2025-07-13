@@ -1,0 +1,7 @@
+dn: cn=admin2,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: simpleSecurityObject
+cn: admin2
+uid: admin
+sn: Admin
+userPassword: adminpassword

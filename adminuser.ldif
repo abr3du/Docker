@@ -1,0 +1,11 @@
+dn: cn=adminuser,ou=users,dc=example,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: adminuser
+sn: Administrator
+uid: adminuser
+uidNumber: 2000
+gidNumber: 2000
+homeDirectory: /home/adminuser
+userPassword: {SSHA}WSLdZUpApwsdOZZwoWlCNrTXgC1sIqS6

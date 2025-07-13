@@ -1,0 +1,66 @@
+networks:
+  ldapnet:
+    driver: bridge
+    name: ldapnet
+
+services:
+  openldap:
+    image: bitnami/openldap:2.6
+    container_name: openldap
+    ports:
+      - '1389:1389'
+      - '1636:1636'
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: user01,user02
+      LDAP_PASSWORDS: adminpassword,adminpassword
+      LDAP_ROOT: dc=example,dc=org
+      LDAP_ADMIN_DN: cn=admin,dc=example,dc=org
+      LDAP_EXTRA_LDIF: /ldif/adminuser.ldif
+    volumes:
+      - openldap_data:/bitnami/openldap
+      - ./certs:/bitnami/openldap/certs
+      - ./adminuser.ldif:/ldif/adminuser.ldif
+    networks:
+      - ldapnet
+    healthcheck:
+      test: ["CMD", "ldapwhoami", "-H", "ldap://localhost:1389", "-x"]
+      interval: 30s
+      timeout: 5s
+      retries: 1
+
+  phpldapadmin:
+    image: phpldapadmin/phpldapadmin:2
+    container_name: phpldapadmin
+    ports:
+      - "8080:8080"
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: openldap
+      PHPLDAPADMIN_HTTPS: "false"
+      APP_URL: "http://localhost:8080"
+      APP_TIMEZONE: "Europe/Berlin"
+      LDAP_PORT: "1389"
+      LDAP_USE_SSL: "false"
+      LDAP_USE_TLS: "false"
+      LDAP_USERNAME: "cn=admin,dc=example,dc=org"
+      LDAP_PASSWORD: "adminpassword"
+      LDAP_CONNECTION: "ldap"
+    volumes:
+      - phpldapadmin_sessions:/app/storage/framework/sessions
+      - phpldapadmin_logs:/app/storage/logs
+      - ./phpldapadmin-entrypoint.sh:/phpldapadmin-entrypoint.sh
+      - ./ldap.php:/app/config/ldap.php
+    entrypoint: ["/phpldapadmin-entrypoint.sh"]
+    networks:
+      - ldapnet
+    depends_on:
+      - openldap
+
+volumes:
+  openldap_data:
+    driver: local
+  phpldapadmin_sessions:
+    driver: local
+  phpldapadmin_logs:
+    driver: local

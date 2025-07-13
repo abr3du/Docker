@@ -1,0 +1,11 @@
+dn: cn=admin,dc=example,dc=org
+changetype: modify
+replace: objectClass
+objectClass: inetOrgPerson
+objectClass: simpleSecurityObject
+-
+add: uid
+uid: admin
+-
+add: sn
+sn: Admin

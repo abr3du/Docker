@@ -1,0 +1,5 @@
+dn: cn=admin,dc=example,dc=org
+objectClass: organizationalRole
+objectClass: simpleSecurityObject
+cn: admin
+userPassword: adminpassword

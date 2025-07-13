@@ -1,0 +1,4 @@
+dn: cn=admin,dc=example,dc=org
+changetype: modify
+add: uid
+uid: admin
