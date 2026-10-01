@@ -12,9 +12,9 @@ services:
       - '1636:1636'
     environment:
       LDAP_ADMIN_USERNAME: admin
-      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_ADMIN_PASSWORD: ${LDAP_ADMIN_PASSWORD}
       LDAP_USERS: user01,user02
-      LDAP_PASSWORDS: adminpassword,adminpassword
+      LDAP_PASSWORDS: ${LDAP_PASSWORDS}
       LDAP_ROOT: dc=example,dc=org
       LDAP_ADMIN_DN: cn=admin,dc=example,dc=org
       LDAP_EXTRA_LDIF: /ldif/adminuser.ldif
@@ -44,7 +44,7 @@ services:
       LDAP_USE_SSL: "false"
       LDAP_USE_TLS: "false"
       LDAP_USERNAME: "cn=admin,dc=example,dc=org"
-      LDAP_PASSWORD: "adminpassword"
+      LDAP_PASSWORD: ${LDAP_PASSWORD}
       LDAP_CONNECTION: "ldap"
     volumes:
       - phpldapadmin_sessions:/app/storage/framework/sessions
